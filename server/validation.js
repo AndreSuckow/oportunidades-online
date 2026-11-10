@@ -1,0 +1,10 @@
+import { z } from 'zod';
+export const stages = ['saved','applied','interview','offer','closed'];
+const str = (max=300) => z.string().trim().max(max).default('');
+const url = z.union([z.literal(''),z.url().refine(s=>/^https?:\/\//i.test(s),'Use um link HTTP ou HTTPS.')]).default('');
+const date = z.union([z.literal(''),z.iso.date()]).default('');
+export const jobSchema = z.object({title:z.string().trim().min(1).max(200),company:z.string().trim().min(1).max(200),platformId:str(80),stage:z.enum(stages).default('saved'),location:str(),mode:z.enum(['Remoto','Híbrido','Presencial','Não informado']).default('Não informado'),salary:str(),contract:str(),priority:z.enum(['Normal','Alta']).default('Normal'),url,description:str(30000),requirements:str(12000),benefits:str(8000),notes:str(12000),contact:str(500),nextAction:str(500),deadline:date,appliedAt:date,resumeSent:z.boolean().optional(),resumeSentBy:z.enum(['','owner','contributor']).default(''),followUp:date,resumeId:str(80),attachmentId:str(80),archived:z.boolean().default(false)});
+export const platformSchema = z.object({name:z.string().trim().min(1).max(80),url,registered:z.boolean().default(false),profileComplete:z.boolean().default(false),alertsEnabled:z.boolean().default(false),resumeId:str(80),notes:str(2000)});
+export const resumeSchema = z.object({name:z.string().trim().min(1).max(120),language:str(30),notes:str(2000),fileId:z.string().min(1).max(80)});
+export const schemas = { jobs:jobSchema, platforms:platformSchema, resumes:resumeSchema };
+export const importSchema = z.object({url, text:str(30000),imageId:str(80)}).refine(d=>d.url||d.text||d.imageId,'Adicione um link, uma descrição ou um print.');

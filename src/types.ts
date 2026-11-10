@@ -1,0 +1,11 @@
+export type Stage='saved'|'applied'|'interview'|'offer'|'closed';
+export const stages:{id:Stage;label:string;short:string;color:string}[]=[{id:'saved',label:'No radar',short:'salvas',color:'slate'},{id:'applied',label:'Candidatura enviada',short:'enviadas',color:'blue'},{id:'interview',label:'Em entrevista',short:'entrevistas',color:'amber'},{id:'offer',label:'Proposta recebida',short:'propostas',color:'green'},{id:'closed',label:'Encerradas',short:'encerradas',color:'gray'}];
+export type Actor={id:string;name:string;picture?:string};
+export type Role='viewer'|'contributor';
+export type Job={id:string;version:number;title:string;company:string;platformId:string;stage:Stage;location:string;mode:string;salary:string;contract:string;priority:string;url:string;description:string;requirements:string;benefits:string;notes:string;contact:string;nextAction:string;deadline:string;appliedAt:string;resumeSent?:boolean;resumeSentBy?:''|'owner'|'contributor';createdBy?:Actor|null;updatedBy?:Actor;submissionRecordedBy?:Actor|null;followUp:string;resumeId:string;attachmentId:string;archived:boolean;createdAt?:string;history?:{at:string;stage:Stage;note:string;actor?:Actor}[]};
+export type Platform={id:string;version:number;name:string;url:string;registered:boolean;profileComplete:boolean;alertsEnabled:boolean;resumeId:string;notes:string};
+export type Resume={id:string;version:number;name:string;language:string;notes:string;fileId:string};
+export type User={id:string;name:string;picture?:string;email:string;demo:boolean;csrf:string};
+export type Workspace={owner:{id:string;name:string;picture?:string};role:'owner'|Role;readOnly:boolean;jobs:Job[];platforms:Platform[];resumes:Resume[]};
+export type Config={google:boolean;email:boolean;ai:boolean;demo:boolean};
+export type Invite={name?:string|null;picture?:string|null;role:Role;id:string;email:string;status:string;expires:number;created:string};
